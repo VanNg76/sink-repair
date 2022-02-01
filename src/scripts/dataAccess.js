@@ -1,11 +1,13 @@
 const applicationState = {
-    requests: []
+    requests: [],
+    plumbers: []
 }
 
 const mainContainer = document.querySelector("#container")
 
 const API = "http://localhost:8088"
 
+// store external state in application state
 export const fetchRequests = () => {
     return fetch(`${API}/requests`)
         .then(response => response.json())
@@ -17,11 +19,26 @@ export const fetchRequests = () => {
         )
 }
 
+export const fetchPlumbers = () => {
+    return fetch(`${API}/plumbers`)
+        .then(response => response.json())
+        .then(
+            (plumbers) => {
+                // Store the external state in application state
+                applicationState.plumbers = plumbers
+            }
+        )
+}
+
 export const getRequests = () => {
     return applicationState.requests.map(request => ({...request}))
 }
 
-// add a new service
+export const getPlumbers = () => {
+    return applicationState.plumbers.map(plumber => ({...plumber}))
+}
+
+// add a new request
 export const sendRequest = (userServiceRequest) => {
     const fetchOptions = {
         method: "POST",
@@ -39,7 +56,7 @@ export const sendRequest = (userServiceRequest) => {
         })
 }
 
-// delete a current service
+// delete a current request
 export const deleteRequest = (id) => {
     return fetch(`${API}/requests/${id}`, { method: "DELETE" })
         .then(

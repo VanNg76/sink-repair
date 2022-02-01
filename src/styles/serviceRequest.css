@@ -1,0 +1,18 @@
+.serviceForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#submitRequest {
+    margin: 1rem 0 2rem 2rem;
+    padding: 0.5rem;
+    background-color: rgb(227, 72, 72);
+    color: lightgoldenrodyellow;
+    font-size: 1.2rem;
+}
+
+.field {
+    margin: 0 5px 0 5px;
+    padding: 0 5px 0 5px;
+}
+

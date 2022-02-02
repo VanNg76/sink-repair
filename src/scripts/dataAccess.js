@@ -8,6 +8,7 @@ const mainContainer = document.querySelector("#container")
 
 const API = "http://localhost:8088"
 
+
 // store external state in application state
 export const fetchRequests = () => {
     return fetch(`${API}/requests`)
@@ -54,6 +55,7 @@ export const getCompletions = () => {
     return applicationState.completions.map(completion => ({...completion}))
 }
 
+
 // add a new request
 export const sendRequest = (userServiceRequest) => {
     const fetchOptions = {
@@ -83,7 +85,7 @@ export const saveCompletion = (completion) => {
         body: JSON.stringify(completion)
     }
 
-    return fetch(`${API}/completion`, fetchOptions)
+    return fetch(`${API}/completions`, fetchOptions)
         .then(response => response.json())
         .then(
             () => {

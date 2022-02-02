@@ -1,9 +1,9 @@
 import { getRequests, getPlumbers } from "./dataAccess.js"
 import { saveCompletion, deleteRequest } from "./dataAccess.js"
-const plumbers = getPlumbers()
 
 export const Requests = () => {
     const requests = getRequests()
+    const plumbers = getPlumbers()
 
     let html = `<ul class="ul-serviceRequests">`
     for (const request of requests) {
@@ -11,7 +11,7 @@ export const Requests = () => {
         <li class="li-serviceRequests">
             <div class="request-description">${request.description}</div>
             <select class="plumbers" id="plumbers">
-                <option value="">Choose</option>
+                <option>Choose</option>
                 ${plumbers.map(plumber => {
                     return `<option value="${request.id}--${plumber.id}">${plumber.name}</option>`
                 }).join("")
@@ -22,7 +22,7 @@ export const Requests = () => {
         </li>`
     }
 
-    html += "</ul>"
+    html += `</ul>`
     
     return html
 }
@@ -48,7 +48,7 @@ mainContainer.addEventListener(
             const completion = { }
             completion.requestId = requestId
             completion.plumberId = plumberId
-            completion.dateCreated = Date.now()
+            completion.dateCreated =  new Date().toLocaleString()
 
             // POST completion objection to database
             saveCompletion(completion)

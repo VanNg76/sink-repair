@@ -36,3 +36,23 @@ input {
     width: 250px;
     display: inline-block;
 }
+
+.li-serviceRequests {
+    width: 750px;
+}
+
+.request-description {
+    display: inline-block;
+    width: 500px;
+}
+
+.request__delete {
+    display: inline-block;
+    width: 100px;
+}
+
+.plumbers {
+    display: inline-block;
+    width: 100px;
+    margin: 5px 20px 5px 20px;
+}

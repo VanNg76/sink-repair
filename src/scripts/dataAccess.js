@@ -1,6 +1,7 @@
 const applicationState = {
     requests: [],
-    plumbers: []
+    plumbers: [],
+    completions: []
 }
 
 const mainContainer = document.querySelector("#container")
@@ -30,12 +31,27 @@ export const fetchPlumbers = () => {
         )
 }
 
+export const fetchCompletions = () => {
+    return fetch(`${API}/completions`)
+        .then(response => response.json())
+        .then(
+            (completions) => {
+                // Store the external state in application state
+                applicationState.completions = completions
+            }
+        )
+}
+
 export const getRequests = () => {
     return applicationState.requests.map(request => ({...request}))
 }
 
 export const getPlumbers = () => {
     return applicationState.plumbers.map(plumber => ({...plumber}))
+}
+
+export const getCompletions = () => {
+    return applicationState.completions.map(completion => ({...completion}))
 }
 
 // add a new request
@@ -55,6 +71,26 @@ export const sendRequest = (userServiceRequest) => {
                 mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
         })
 }
+
+
+// add a new completion
+export const saveCompletion = (completion) => {
+    const fetchOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(completion)
+    }
+
+    return fetch(`${API}/completion`, fetchOptions)
+        .then(response => response.json())
+        .then(
+            () => {
+                mainContainer.dispatchEvent(new CustomEvent("stateChanged"))
+        })
+}
+
 
 // delete a current request
 export const deleteRequest = (id) => {

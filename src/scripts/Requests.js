@@ -1,14 +1,15 @@
 import { getRequests, getPlumbers } from "./dataAccess.js"
-import { deleteRequest } from "./dataAccess.js"
+import { saveCompletion, deleteRequest } from "./dataAccess.js"
+const plumbers = getPlumbers()
 
 export const Requests = () => {
     const requests = getRequests()
-    const plumbers = getPlumbers()
 
-    let html = "<ul>"
+    let html = `<ul class="ul-serviceRequests">`
     for (const request of requests) {
         html += `
-        <li>${request.description}
+        <li class="li-serviceRequests">
+            <div class="request-description">${request.description}</div>
             <select class="plumbers" id="plumbers">
                 <option value="">Choose</option>
                 ${plumbers.map(plumber => {
@@ -20,6 +21,7 @@ export const Requests = () => {
             <button class="request__delete" id="request--${request.id}">Delete</button>
         </li>`
     }
+
     html += "</ul>"
     
     return html
@@ -34,3 +36,23 @@ mainContainer.addEventListener("click", click => {
         deleteRequest(parseInt(requestId))
     }
 })
+
+// change event for completion
+mainContainer.addEventListener(
+    "change",
+    (event) => {
+        if (event.target.id === "plumbers") {
+            const [requestId, plumberId] = event.target.value.split("--")
+
+            // Create a new completion object
+            const completion = { }
+            completion.requestId = requestId
+            completion.plumberId = plumberId
+            completion.dateCreated = Date.now()
+
+            // POST completion objection to database
+            saveCompletion(completion)
+
+        }
+    }
+)
